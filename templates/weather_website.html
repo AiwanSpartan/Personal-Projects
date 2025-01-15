@@ -3,5 +3,11 @@
 </head>
 
 <body>
+    <ul>
+        {% for date in dates %}
+            <li>{{ dates.date }}</li>
+        {% endfor %}
+    </ul>
     <h3><center>Enter the city to find the weather:</center></h3>
+    <p><center>{{dates}} and {{temps}} and {{test}}</center></p>
 </body>
