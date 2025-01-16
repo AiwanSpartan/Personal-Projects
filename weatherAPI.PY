@@ -1,5 +1,7 @@
 import requests 
-from flask import Flask, render_template
+import os 
+from dotenv import load_dotenv
+from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -7,30 +9,38 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
 db = SQLAlchemy(app)
 dates = []
 temps = []
-test = 0
+user_input = ""
+load_dotenv()
+WEATHER_API_KEY = os.getenv("WEATHER_API_KEY")
 
 def get_weather_info(name):
-    url = f"https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/" +\
-    "{name}?unitGroup=metric&key=5BVE78MUF6E8K6VMF9NXEEUWS&contentType=json"
+    url = f"https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/" \
+    f"timeline/{name}?unitGroup=metric&key={WEATHER_API_KEY}&contentType=json"
+
     info = requests.get(url)
 
     if(info.status_code == 200):
         data = info.json()
         for i in range(len(data["days"])):
-            dates.apprehend = [data["days"][i]["datetime"]]
-            temps.apprehend = [data["days"][i]["temp"]]
-    test = 1
+            dates.append(data["days"][i]["datetime"])
+            temps.append(data["days"][i]["temp"])
 
+    else:
+        return "nothing"
 
 @app.route("/")
+def home():  
+    return render_template("weather_website.html")
 
-def website():  
-    return render_template("weather_website.html", temps=temps, dates=dates, test=test)
+@app.route("/button", methods=["POST"])
+def button_pressed():
+    user_input = request.form.get("inputted_city")
+    get_weather_info(user_input)
+    return render_template("weather_website.html", list_of_temps=temps, list_of_dates=dates)
 
 if __name__ == "__main__":
     app.run(debug=True)
 
-get_weather_info("dublin")
-
-#fix data website thingy
 #start on cache 
+#error handling 
+#multiple buttons/webpages implement jaavscript and AJAX 

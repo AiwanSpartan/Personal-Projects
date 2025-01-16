@@ -1,13 +1,18 @@
 <head>
-    <h1><center>Weather Climate</center></h1>
+    <h1><center>Check the Weather of any Town</center></h1>
 </head>
 
 <body>
+    <form action="/button" method="POST">
+    <center><input type="text" name="inputted_city" placeholder="Enter city"></center>
+    <center><button>Sumbit</button></center>
     <ul>
-        {% for date in dates %}
-            <li>{{ dates.date }}</li>
+        {% for date in list_of_dates %}
+            <li>{{ date }}</li>
+        {% endfor %}
+
+        {% for temps in list_of_temps %}
+            <li>{{ temps }}</li>
         {% endfor %}
     </ul>
-    <h3><center>Enter the city to find the weather:</center></h3>
-    <p><center>{{dates}} and {{temps}} and {{test}}</center></p>
 </body>
