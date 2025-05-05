@@ -120,7 +120,7 @@ def draw():
     for tile in snake_body:
         canvas.create_rectangle(tile.x, tile.y, tile.x + TILESIZE, tile.y + TILESIZE, fill="lime green")
 
-    window.after(100, draw)  #refreshes every 100ms 
+    window.after(50, draw)  #refreshes every 100ms 
 
     if(game_over):
         canvas.create_text(WINDOW_WIDTH/2, WINDOW_HEIGHT/2, font = "Arial 20", text = f"Game Over: {score}", fill = "white")
